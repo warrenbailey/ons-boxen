@@ -87,7 +87,6 @@ class people::dhilton {
       'gnu-sed',
       'terraform',
       'tig',
-      'atom',
       'pass',
       'watch',
     ]:
