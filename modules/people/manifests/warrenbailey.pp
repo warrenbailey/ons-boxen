@@ -6,14 +6,14 @@ class people::warrenbailey {
   include wget
   include skype
   include slack
+  include homebrew
   include brewcask # taps homebrew-cask / installs brew-cask
 
   $home = "/Users/${::luser}"
-  $projects = "${home}/projects"
-  $projects_personal = "${projects}/personal"
+  $projects = "${home}/Dev"
   $dotfiles = "${projects}/dotfiles"
 
-  file { [$projects, $projects_personal]:
+  file { [$projects]:
     ensure  => directory,
   }
 
@@ -33,24 +33,17 @@ class people::warrenbailey {
   
   #Mac tweaks
   include osx::no_network_dsstores
-  include osx::dock::autohide
   include osx::disable_app_quarantine
   include osx::global::disable_autocorrect
   include osx::global::tap_to_click
   include osx::keyboard::capslock_to_control
   include osx::finder::empty_trash_securely
-  include osx::dock::clear_dock
   include osx::no_network_dsstores
-  include osx::dock::dim_hidden_apps
 
-  class { 'osx::dock::icon_size': size => 40 }
-  class { 'osx::dock::position':
-    position => 'left'
-  }
   class { 'osx::sound::interface_sound_effects':
     enable => false
   }
-  osx::recovery_message { 'If this Mac is found, please @danhilton': }
+  osx::recovery_message { 'If this Mac is found, please email warren@warrenbailey.net': }
 
 
   boxen::osx_defaults { 'show battery percentage remaining':
@@ -69,11 +62,6 @@ class people::warrenbailey {
   include git
   include java
 
-  # Install packages using homebrew-cask
-  package { 'virtualbox': provider => 'brewcask' }
-  package { 'dockertoolbox': provider => 'brewcask'}
-  package {'atom': provider => 'brewcask'}
-
   #Shell
   include zsh
   include ohmyzsh
@@ -89,6 +77,7 @@ class people::warrenbailey {
       'tig',
       'pass',
       'watch',
+      'python',
     ]:
     ensure => present,
   }
@@ -98,14 +87,4 @@ class people::warrenbailey {
     install_options => '--cross-compile-common',
   }
   
-  package { 'python':
-    ensure => present,
-  } ->
-  package { [
-    'virtualenv',
-    'virtualenvwrapper',
-  ]:
-    ensure   => present,
-    provider => 'pip',
-  }
 }
