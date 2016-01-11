@@ -31,15 +31,6 @@ class people::warrenbailey {
     ensure => present,
   }
   
-  #Mac tweaks
-  include osx::no_network_dsstores
-  include osx::disable_app_quarantine
-  include osx::global::disable_autocorrect
-  include osx::global::tap_to_click
-  include osx::keyboard::capslock_to_control
-  include osx::finder::empty_trash_securely
-  include osx::no_network_dsstores
-
   class { 'osx::sound::interface_sound_effects':
     enable => false
   }
@@ -78,6 +69,9 @@ class people::warrenbailey {
       'pass',
       'watch',
       'python',
+      'python3',
+      'rabbitmq',
+      'packer',
     ]:
     ensure => present,
   }
